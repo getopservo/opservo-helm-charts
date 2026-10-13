@@ -5,7 +5,7 @@
 # repositoryID is printed by ArtifactHub after you add the repository
 # (Control Panel → Repositories → Add); paste it here and re-publish to get the
 # "Verified publisher" badge.
-# repositoryID: <uuid from ArtifactHub>
+repositoryID: e0c3855f-fba2-4107-b440-9e06e4335674
 owners:
   - name: Opservo
     email: hello@getopservo.com
