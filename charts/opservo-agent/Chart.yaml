@@ -1,0 +1,43 @@
+apiVersion: v2
+name: opservo-agent
+description: >-
+  Opservo Kubernetes agent — one read-only collector per cluster that explains
+  crash loops, pending pods, node pressure and failed jobs in plain English.
+type: application
+version: 0.1.0
+appVersion: "latest"
+kubeVersion: ">=1.24.0-0"
+home: https://getopservo.com
+icon: https://getopservo.com/icon.svg
+sources:
+  - https://github.com/getopservo/opservo-helm-charts
+keywords:
+  - monitoring
+  - observability
+  - kubernetes
+  - alerting
+  - opservo
+maintainers:
+  - name: Opservo
+    email: hello@getopservo.com
+    url: https://getopservo.com
+annotations:
+  artifacthub.io/category: monitoring-logging
+  artifacthub.io/license: MIT
+  artifacthub.io/operator: "false"
+  artifacthub.io/prerelease: "false"
+  artifacthub.io/containsSecurityUpdates: "false"
+  artifacthub.io/images: |
+    - name: opservo-k8s-agent
+      image: ghcr.io/getopservo/opservo-k8s-agent:latest
+  artifacthub.io/links: |
+    - name: Documentation
+      url: https://getopservo.com/docs
+    - name: Kubernetes agent security model
+      url: https://getopservo.com/security
+  artifacthub.io/changes: |
+    - kind: added
+      description: First release — read-only cluster collector, enrollment token from values or an existing Secret.
+  artifacthub.io/maintainers: |
+    - name: Opservo
+      email: hello@getopservo.com

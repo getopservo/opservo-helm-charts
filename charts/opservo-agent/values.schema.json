@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "enrollment": {
+      "type": "object",
+      "properties": {
+        "apiUrl": { "type": "string", "pattern": "^https://" },
+        "token": { "type": "string" },
+        "clusterName": { "type": "string", "maxLength": 80 },
+        "existingSecret": { "type": "string" }
+      },
+      "required": ["apiUrl"]
+    },
+    "image": {
+      "type": "object",
+      "properties": {
+        "repository": { "type": "string" },
+        "tag": { "type": "string" },
+        "pullPolicy": { "type": "string", "enum": ["Always", "IfNotPresent", "Never"] }
+      }
+    },
+    "interval": { "type": "string", "pattern": "^[0-9]+(s|m|h)$" },
+    "extraArgs": { "type": "array", "items": { "type": "string" } }
+  }
+}

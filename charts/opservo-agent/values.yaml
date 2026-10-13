@@ -1,0 +1,57 @@
+# Opservo Kubernetes agent. Install into its own namespace:
+#
+#   helm install opservo-agent opservo/opservo-agent -n opservo --create-namespace \
+#     --set enrollment.token=ipk_… --set enrollment.clusterName=prod-eks
+#
+# Get the token in the dashboard: Add server → Kubernetes cluster.
+
+enrollment:
+  # Opservo API the agent reports to (https only).
+  apiUrl: https://api.getopservo.com
+  # Enrollment token: single-use ipk_… from "Add server → Kubernetes cluster",
+  # or a multi-use fleet_… key. Ignored when existingSecret is set.
+  token: ""
+  # Name shown in the dashboard (default: the API server host).
+  clusterName: ""
+  # Use a Secret you manage (sealed-secrets, external-secrets, …) instead of
+  # rendering the token from values. It must hold OPSERVO_TOKEN and may hold
+  # OPSERVO_API_URL / OPSERVO_CLUSTER_NAME.
+  existingSecret: ""
+
+image:
+  repository: ghcr.io/getopservo/opservo-k8s-agent
+  # Defaults to the chart appVersion.
+  tag: ""
+  pullPolicy: Always
+
+imagePullSecrets: []
+
+# Heartbeat interval.
+interval: 60s
+
+# Extra container args, e.g. ["--dev"].
+extraArgs: []
+
+serviceAccount:
+  # The ServiceAccount the ClusterRole is bound to.
+  name: opservo-k8s-agent
+  annotations: {}
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 96Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+podAnnotations: {}
+podLabels: {}
+nodeSelector: {}
+affinity: {}
+priorityClassName: ""
+
+tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    operator: Exists
+    effect: NoSchedule

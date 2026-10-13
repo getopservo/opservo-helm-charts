@@ -1,0 +1,11 @@
+The Opservo cluster agent is starting in namespace {{ .Release.Namespace }}.
+
+  kubectl -n {{ .Release.Namespace }} logs deploy/opservo-k8s-agent -f
+
+Within a minute the cluster appears in your Opservo workspace with a "k8s"
+badge. The agent is read-only: it cannot create, change or delete anything in
+the cluster except its own credentials Secret (opservo-agent-credentials).
+
+Uninstall: helm uninstall {{ .Release.Name }} -n {{ .Release.Namespace }}
+  (then delete the server in the dashboard, and the leftover Secret:
+   kubectl -n {{ .Release.Namespace }} delete secret opservo-agent-credentials)
