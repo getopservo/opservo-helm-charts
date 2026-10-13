@@ -35,6 +35,8 @@ annotations:
       url: https://getopservo.com/docs
     - name: Kubernetes agent security model
       url: https://getopservo.com/security
+    - name: Agent source code
+      url: https://github.com/getopservo/opservo-agent
   artifacthub.io/changes: |
     - kind: added
       description: First release — read-only cluster collector, enrollment token from values or an existing Secret.
