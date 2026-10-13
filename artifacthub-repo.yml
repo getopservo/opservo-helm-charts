@@ -1,0 +1,11 @@
+# ArtifactHub repository metadata. Publish this file at the ROOT of the chart
+# repository (the gh-pages branch next to index.yaml for a Helm HTTP repo, or
+# as the `artifacthub.io` tag for an OCI repo — see integrations/PUBLISHING.md).
+#
+# repositoryID is printed by ArtifactHub after you add the repository
+# (Control Panel → Repositories → Add); paste it here and re-publish to get the
+# "Verified publisher" badge.
+# repositoryID: <uuid from ArtifactHub>
+owners:
+  - name: Opservo
+    email: hello@getopservo.com
