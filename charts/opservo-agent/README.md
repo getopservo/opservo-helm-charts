@@ -21,6 +21,17 @@ helm install opservo-agent opservo/opservo-agent \
 
 Or from OCI: `helm install opservo-agent oci://ghcr.io/getopservo/charts/opservo-agent -n opservo --create-namespace --set enrollment.token=…`
 
+Chart packages from the Helm repository are GPG-signed. To verify, import the
+key once and add `--verify` to `helm install` / `helm upgrade`:
+
+```bash
+curl -fsSL https://getopservo.github.io/opservo-helm-charts/pgp-public-key.asc | gpg --dearmor > ~/.gnupg/opservo-helm.gpg
+helm install opservo-agent opservo/opservo-agent --verify --keyring ~/.gnupg/opservo-helm.gpg …
+```
+
+The agent image is signed too (keyless cosign, built by
+`getopservo/opservo-agent` GitHub Actions).
+
 Get the token in the dashboard: **Add server → Kubernetes cluster**. A
 single-use `ipk_…` token is enough — after the first registration the agent
 keeps its credentials in the `opservo-agent-credentials` Secret, so restarts
@@ -52,7 +63,8 @@ kubectl label ns opservo pod-security.kubernetes.io/enforce=restricted
 | `enrollment.clusterName` | `""` | Name in the dashboard (default: API server host). |
 | `enrollment.existingSecret` | `""` | Use your own Secret (`OPSERVO_TOKEN`, optional `OPSERVO_API_URL`, `OPSERVO_CLUSTER_NAME`). |
 | `image.repository` | `ghcr.io/getopservo/opservo-k8s-agent` | Agent image. |
-| `image.tag` | chart `appVersion` | Image tag. |
+| `image.tag` | chart `appVersion` | Image tag (a pinned release). |
+| `image.pullPolicy` | `IfNotPresent` | Image pull policy. |
 | `interval` | `60s` | Heartbeat interval. |
 | `serviceAccount.name` | `opservo-k8s-agent` | ServiceAccount bound to the read-only ClusterRole. |
 | `resources` | 50m/96Mi → 500m/512Mi | Requests / limits. |

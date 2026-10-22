@@ -20,9 +20,9 @@ enrollment:
 
 image:
   repository: ghcr.io/getopservo/opservo-k8s-agent
-  # Defaults to the chart appVersion.
+  # Defaults to the chart appVersion (a pinned release, never "latest").
   tag: ""
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
 
 imagePullSecrets: []
 

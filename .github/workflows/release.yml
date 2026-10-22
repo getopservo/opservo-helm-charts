@@ -23,6 +23,23 @@ jobs:
       - uses: azure/setup-helm@v4
       - name: Lint
         run: helm lint --strict charts/opservo-agent --set enrollment.token=ipk_test
+      # Sign every packaged chart (writes a .prov next to the .tgz). The key is
+      # "Opservo Helm charts <hello@getopservo.com>"; its public half is served
+      # at https://getopservo.github.io/opservo-helm-charts/pgp-public-key.asc
+      # and named in Chart.yaml (artifacthub.io/signKey).
+      - name: Prepare signing key
+        env:
+          GPG_KEYRING_BASE64: "${{ secrets.GPG_KEYRING_BASE64 }}"
+          GPG_PASSPHRASE: "${{ secrets.GPG_PASSPHRASE }}"
+        run: |
+          dir="$RUNNER_TEMP/cr-gpg"
+          mkdir -m 700 "$dir"
+          base64 -d <<< "$GPG_KEYRING_BASE64" > "$dir/secring.gpg"
+          printf '%s' "$GPG_PASSPHRASE" > "$dir/passphrase"
+          echo "CR_KEYRING=$dir/secring.gpg" >> "$GITHUB_ENV"
+          echo "CR_PASSPHRASE_FILE=$dir/passphrase" >> "$GITHUB_ENV"
       - uses: helm/chart-releaser-action@v1.7.0
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          CR_SIGN: "true"
+          CR_KEY: "Opservo Helm charts"
